@@ -1,9 +1,23 @@
 package categorycontroller
 
-import "net/http"
+import (
+	"net/http"
+	"text/template"
+	"web-go-native/models/categorymodel"
+)
 
 func Index(w http.ResponseWriter, r *http.Request) {
+	categories := categorymodel.GetAll()
+	data := map[string]any{
+		"categories": categories,
+	}
 
+	temp, err := template.ParseFiles("views/category/index.html")
+	if err != nil {
+		panic(err)
+	}
+
+	temp.Execute(w, data)
 }
 
 func Add(w http.ResponseWriter, r *http.Request) {
